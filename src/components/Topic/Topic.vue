@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{this.$route.params.type}}
   </div>
 </template>
 
@@ -11,9 +12,6 @@ export default {
     }
   },
   methods: {
-    mounted () {
-      console.log(this.$route.params.type)
-    }
   }
 }
 </script>

@@ -33,6 +33,9 @@ export default {
       checked: ''
     }
   },
+  mounted () {
+    if (this.$route.query.message) alert(this.$route.query.message)
+  },
   methods: {
     login () {
       var _this = this

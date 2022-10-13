@@ -13,6 +13,38 @@ Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth) {
+    if (store.state.user.username) {
+      axios.post('/authentication', {
+        username: store.state.user.username,
+        password: store.state.user.password
+      }).then(resp => {
+        if (resp.data.code === 200) next()
+        else if (resp.data.code === 400) {
+          next({
+            path: '/',
+            query: {
+              redirect: to.fullPath,
+              message: resp.data.message
+            }
+          })
+        }
+      })
+    } else {
+      next({
+        path: '/',
+        query: {
+          redirect: to.fullPath,
+          message: '请先进行登录！'
+        }
+      })
+    }
+  } else {
+    next()
+  }
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

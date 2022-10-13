@@ -1,12 +1,12 @@
 <template>
-<div>
-  recent
-</div>
+    <div>
+      {{this.$route.params.type}}
+    </div>
 </template>
 
 <script>
 export default {
-  name: 'Recent'
+  name: 'Manage'
 }
 </script>
 
