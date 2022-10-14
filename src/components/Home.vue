@@ -1,7 +1,7 @@
 <template>
   <div >
     <el-menu
-      :default-active="'/recent'"
+      :default-active= "'/recent'"
       :router="true"
       class="el-menu-demo"
       mode="horizontal"
@@ -20,9 +20,10 @@
       <el-menu-item :key="6" index="/" class="el-icon-switch-button" style="float: right" @click="logout"></el-menu-item>
       <el-menu-item :key="7" index="/Manage/个人中心" class="el-icon-user" style="float: right" @click="forPerson"></el-menu-item>
       <el-menu-item :key="8" index="/Manage/主题管理" class="el-icon-tickets" style="float: right" @click="forTopic"></el-menu-item>
+      <el-menu-item :key="9" index="/Publish" class="el-icon-circle-plus" style="float: right" @click="publish"></el-menu-item>
       <span style="position: absolute;padding-top: 10px;right: 49%;font-size: 30px;font-weight: bold ;color: white">网闻天下事</span>
     </el-menu>
-    <router-view></router-view>
+    <router-view ></router-view>
     <router-view name="header" ></router-view>
     <div class="container">
       <!-- main中心位置的命名视图 -->
@@ -53,6 +54,8 @@ export default {
     forRecent () {
     },
     forRecommend () {
+    },
+    publish () {
     }
   }
 }

@@ -8,7 +8,7 @@ import Manage from '../components/Manage/Manage'
 import RecentNews from '../components/Recent/RecentNews'
 import HotNews from '../components/Recent/HotNews'
 import HeaderNews from '../components/Recent/HeaderNews'
-
+import Publish from '../components/Publish'
 Vue.use(Router)
 
 export default new Router({
@@ -38,16 +38,6 @@ export default new Router({
             main: RecentNews,
             right: HotNews
           }
-          // component: Recent,
-          // children: [
-          //   {
-          //     path: 'content',
-          //     components: {
-          //       Main: RecentNews,
-          //       RightSidebar: HotNews
-          //     }
-          //   }
-          // ]
         },
         {
           path: '/recommend',
@@ -72,6 +62,11 @@ export default new Router({
             requireAuth: true
           },
           component: Manage
+        },
+        {
+          path: '/publish',
+          name: 'Publish',
+          component: Publish
         }
       ]
     }
