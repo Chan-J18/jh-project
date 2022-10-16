@@ -1,10 +1,9 @@
 <template>
   <div>
     <el-upload
-      action="http://localhost:8443/article/img"
+      action="http://localhost:8443/article/img/add"
       list-type="picture-card"
       :limit="1"
-      :before-upload="handleBeforeUpload"
       :on-success="handleSuccess"
       :on-exceed="handleExceed"
       :on-preview="handlePictureCardPreview"
@@ -31,6 +30,13 @@ export default {
   methods: {
     handleRemove (file, fileList) {
       this.dialogImageUrl = ''
+      this.$axios.post('/article/img/remove', {url: this.ImgUrl})
+        .then(resp => {
+          if (resp.data.code === 200) {
+            this.ImgUrl = ''
+            this.$emit('change', false)
+          }
+        })
     },
     handlePictureCardPreview (file) {
       this.dialogImageUrl = file.url
@@ -42,8 +48,6 @@ export default {
     handleSuccess (res) {
       this.ImgUrl = res
       this.$emit('change', true)
-    },
-    handleBeforeUpload (file) {
     }
   }
 }

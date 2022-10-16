@@ -9,6 +9,26 @@
       style="margin: 10px 0px;font-size: 18px;"
       placeholder="请输入标题">
     </el-input>
+    <div style="float:left;">
+      <label >主题:</label>
+      <el-tag
+        :key="tag.id"
+        v-for="tag in this.Tags"
+        closable
+        :disable-transitions="false"
+        @close="handleClose(tag.id)">
+        {{tag.label}}
+      </el-tag>
+      <el-select v-model="tag.id" placeholder="请选择" class="button-new-tag" size="small" @change="selectChange">
+        <el-option
+          v-for="item in defaultTags"
+          :key="item.id"
+          :label="item.label "
+          :value="item.id">
+        </el-option>
+      </el-select>
+      <el-button  class="button-new-tag" size="small" icon="el-icon-plus" @click="addType"></el-button>
+    </div>
     <el-input
       v-model="article.profile"
       style="margin: 10px 0px;font-size: 18px;"
@@ -34,7 +54,7 @@
       :visible.sync="dialogVisible"
       width="30%">
       <el-divider content-position="left">封面</el-divider>
-      <img-upload @change="isUpload = true" ref="Ud" style="margin-top: 5px"></img-upload>
+      <img-upload @change="uploadChange" ref="Ud" style="margin-top: 5px"></img-upload>
     </el-dialog>
   </div>
 </template>
@@ -47,15 +67,32 @@ export default {
   data () {
     return {
       article: {
+        id: '',
         title: '',
         profile: '',
         contentMd: '',
         contentHtml: '',
         img: '',
-        date: ''
+        date: '',
+        types: []
       },
       dialogVisible: false,
-      isUpload: false
+      isUpload: false,
+      defaultTags: [
+        {
+          id: 1,
+          label: '军事'
+        },
+        {
+          id: 2,
+          label: '生活'
+        },
+        {
+          id: 3,
+          label: '娱乐'
+        }],
+      tag: {id: 1, label: '军事'},
+      Tags: []
     }
   },
   methods: {
@@ -100,9 +137,15 @@ export default {
               date: this.article.date
             }).then(resp => {
               if (resp && resp.status === 200) {
-                this.$message({
-                  type: 'success',
-                  message: '已发布'
+                this.article.id = resp.data
+                this.$axios.post('article/types', {
+                  aid: this.article.id,
+                  types: this.article.types
+                }).then(resp => {
+                  this.$message({
+                    type: 'success',
+                    message: '已发布'
+                  })
                 })
               }
             })
@@ -121,12 +164,56 @@ export default {
     isOk () {
       var title = this.article.title.length
       var profile = this.article.profile.length
-      if (title !== 0 && profile !== 0 && this.isUpload !== false) return true
+      var types = this.article.types.length
+      if (title !== 0 && profile !== 0 && types !== 0 && this.isUpload !== false) return true
       else return false
+    },
+    handleClose (tag) {
+      this.article.types.splice(this.article.types.indexOf(tag), 1)
+      for (var i = 0; i < this.Tags.length; i++) {
+        if (this.Tags[i].id === tag) {
+          this.Tags.splice(i, 1)
+        }
+      }
+    },
+    addType () {
+      if (!this.article.types.includes(this.tag.id)) {
+        this.article.types.push(this.tag.id)
+        this.Tags.push({id: this.tag.id, label: this.tag.label})
+      }
+    },
+    selectChange (value) {
+      switch (value) {
+        case 1:
+          this.tag.label = '军事'
+          break
+        case 2:
+          this.tag.label = '生活'
+          break
+        case 3:
+          this.tag.label = '娱乐 '
+          break
+      }
+    },
+    uploadChange () {
+      this.isUpload = true
+      this.dialogVisible = false
     }
   }
 }
 </script>
 
 <style scoped>
+  .el-tag + .el-tag {
+    margin-left: 10px;
+  }
+  .button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+    width: 90px;
+    vertical-align: bottom;
+  }
 </style>
