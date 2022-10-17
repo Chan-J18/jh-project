@@ -9,6 +9,7 @@ import RecentNews from '../components/Recent/RecentNews'
 import HotNews from '../components/Recent/HotNews'
 import HeaderNews from '../components/Recent/HeaderNews'
 import Publish from '../components/Publish'
+import ArticleDetail from '../components/common/ArticleDetail'
 Vue.use(Router)
 
 export default new Router({
@@ -67,6 +68,11 @@ export default new Router({
           path: '/publish',
           name: 'Publish',
           component: Publish
+        },
+        {
+          path: '/article',
+          name: 'Article',
+          component: ArticleDetail
         }
       ]
     }

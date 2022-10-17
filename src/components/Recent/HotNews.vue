@@ -1,12 +1,11 @@
 <template>
   <div style="margin-top: 40px">
     <div class="articles-area">
-      <el-card style="text-align: left">
-        <div v-for="index in 1" :key="index">
-          <div style="float:left;width:85%;height: 150px;">
-            <router-link class="article-link" to="/" ><span style="font-size: 20px"><strong>title</strong></span></router-link>
-            <el-divider content-position="right">发布时间</el-divider>
-            <router-link class="article-link" to="/"><p>abstract</p></router-link>
+      <el-card style="text-align: center" @click="newDetail">
+        <i class="el-icon-thumb" style="font-size: 40px;"><strong>热点资讯</strong></i>
+        <div v-for="(item, index) in hotNews" :key="index" style="margin-top: 10px">
+          <div style="float:left;width:85%;height:35px;">
+            <router-link class="article-link" :to="{path:'/article',query:{id: item.id}}" ><span style="font-size: 15px">{{index+1}}、 {{item.title}}</span></router-link>
           </div>
         </div>
       </el-card>
@@ -16,7 +15,23 @@
 
 <script>
 export default {
-  name: 'HotNews'
+  name: 'HotNews',
+  data () {
+    return {
+      hotNews: []
+    }
+  },
+  mounted () {
+    var _this = this
+    this.$axios.get('/article/hot')
+      .then(resp => {
+        _this.hotNews = resp.data.content
+      })
+  },
+  methods: {
+    newDetail () {
+    }
+  }
 }
 </script>
 
