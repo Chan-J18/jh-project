@@ -27,7 +27,12 @@ export default {
   },
   methods: {
     newDetail (id) {
-      this.$router.push({path: '/article', query: {id: id}})
+      this.$router.push({path: '/article',
+        query:
+          {
+            id: id,
+            back: '/recent'
+          }})
     }
   }
 }

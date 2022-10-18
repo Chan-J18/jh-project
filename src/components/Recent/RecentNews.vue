@@ -4,9 +4,9 @@
       <el-card style="text-align: left">
         <div v-for="(item,index) in articles" :key="index">
           <div style="float:left;width:85%;height: 150px;">
-            <router-link class="article-link" :to="{path:'/article',query:{id: item.id}}"><span style="font-size: 20px"><strong>{{item.title}}</strong></span></router-link>
+            <router-link class="article-link" :to="{path:'/article',query:{id: item.id, back: '/recent'}}"><span style="font-size: 20px"><strong>{{item.title}}</strong></span></router-link>
             <el-divider content-position="right">{{item.date}}</el-divider>
-            <router-link class="article-link" :to="{path:'/article',query:{id: item.id}}"><p>{{item.profile}}</p></router-link>
+            <router-link class="article-link" :to="{path:'/article',query:{id: item.id, back: '/recent'}}"><p>{{item.profile}}</p></router-link>
           </div>
           <el-image
             style="margin:18px 0 0 30px;width:100px;height: 100px"

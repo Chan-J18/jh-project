@@ -138,6 +138,7 @@ export default {
             }).then(resp => {
               if (resp && resp.status === 200) {
                 this.article.id = resp.data
+                console.log(this.article.types)
                 this.$axios.post('article/types', {
                   aid: this.article.id,
                   types: this.article.types

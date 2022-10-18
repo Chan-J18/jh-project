@@ -1,12 +1,12 @@
 <template>
-  <div style="margin-top: 40px">
-    <div class="articles-area">
+  <div style="margin-top: 40px;margin-left: 300px">
+    <div style="width: 1300px;">
       <el-card style="text-align: left">
         <div v-for="(item,index) in articles" :key="index">
           <div style="float:left;width:85%;height: 150px;">
-            <router-link class="article-link" :to="{path:'/article',query:{id: item.id}}"><span style="font-size: 20px"><strong>{{item.title}}</strong></span></router-link>
+            <router-link class="article-link" :to="{path:'/article',query:{id: item.id, back: '/topic/'+type}}"><span style="font-size: 20px"><strong>{{item.title}}</strong></span></router-link>
             <el-divider content-position="right">{{item.date}}</el-divider>
-            <router-link class="article-link" :to="{path:'/article',query:{id: item.id}}"><p>{{item.profile}}</p></router-link>
+            <router-link class="article-link" :to="{path:'/article',query:{id: item.id, back: '/topic/'+type}}"><p>{{item.profile}}</p></router-link>
           </div>
           <el-image
             style="margin:18px 0 0 30px;width:100px;height: 100px"
@@ -35,16 +35,15 @@ export default {
       articles: [],
       page: 1,
       pagesize: 10,
-      total: 0
+      total: 0,
+      type: ''
     }
   },
   mounted () {
-    var _this = this
-    this.$axios.get('/topic/' + _this.$route.params.type + '/' + _this.pagesize + '/1')
-      .then(resp => {
-        _this.articles = resp.data.content
-        _this.total = resp.data.totalElements
-      })
+    this.load()
+  },
+  updated () {
+    this.load()
   },
   methods: {
     handleCurrentChange (page) {
@@ -52,9 +51,16 @@ export default {
       this.$axios.get('/topic/' + _this.$route.params.type + '/' + _this.pagesize + '/' + page)
         .then(resp => {
           if (resp && resp.status === 200) {
-            _this.articles = resp.data.content
-            _this.total = resp.data.totalElements
+            _this.articles = resp.data
           }
+        })
+    },
+    load () {
+      this.type = this.$route.params.type
+      var _this = this
+      this.$axios.get('/topic/' + _this.$route.params.type + '/' + _this.pagesize + '/1')
+        .then(resp => {
+          _this.articles = resp.data
         })
     }
   }

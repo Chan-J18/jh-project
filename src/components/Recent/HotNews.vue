@@ -5,7 +5,7 @@
         <i class="el-icon-thumb" style="font-size: 40px;"><strong>热点资讯</strong></i>
         <div v-for="(item, index) in hotNews" :key="index" style="margin-top: 10px">
           <div style="float:left;width:85%;height:35px;">
-            <router-link class="article-link" :to="{path:'/article',query:{id: item.id}}" ><span style="font-size: 15px">{{index+1}}、 {{item.title}}</span></router-link>
+            <router-link class="article-link" :to="{path:'/article',query:{id: item.id, back: '/recent'}}" ><span style="font-size: 15px">{{index+1}}、 {{item.title}}</span></router-link>
           </div>
         </div>
       </el-card>

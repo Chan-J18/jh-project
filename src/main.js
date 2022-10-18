@@ -10,6 +10,7 @@ import store from './store'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 
+axios.defaults.withCredentials = true
 axios.defaults.baseURL = 'http://localhost:8443'
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
