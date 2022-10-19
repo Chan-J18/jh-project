@@ -44,6 +44,7 @@ export default {
         _this.$axios.get('/article/getType/' + resp.data.id)
           .then(resp => {
             _this.types = resp.data
+            _this.$axios.post('/article/updateUserFeature')
           })
       })
   },
