@@ -42,9 +42,6 @@ export default {
   mounted () {
     this.load()
   },
-  updated () {
-    this.load()
-  },
   methods: {
     handleCurrentChange (page) {
       var _this = this

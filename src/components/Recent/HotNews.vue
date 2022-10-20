@@ -24,9 +24,6 @@ export default {
   mounted () {
     this.load()
   },
-  updated () {
-    this.load()
-  },
   methods: {
     load () {
       var _this = this

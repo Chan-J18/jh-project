@@ -42,12 +42,10 @@ export default {
   mounted () {
     this.load()
   },
-  updated () {
-    this.load()
-  },
   methods: {
     handleCurrentChange (page) {
       var _this = this
+      console.log(page)
       this.$axios.get('/article/' + this.pagesize + '/' + page)
         .then(resp => {
           if (resp && resp.status === 200) {

@@ -147,6 +147,7 @@ export default {
                     type: 'success',
                     message: '已发布'
                   })
+                  this.goBack()
                 })
               }
             })

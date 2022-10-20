@@ -24,7 +24,7 @@
       <el-menu-item :key="9" index="/Publish" class="el-icon-circle-plus" style="float: right" ></el-menu-item>
       <span style="position: absolute;padding-top: 10px;right: 49%;font-size: 30px;font-weight: bold ;color: white">网闻天下事</span>
     </el-menu>
-    <router-view ></router-view>
+    <router-view :key="key" ></router-view>
     <router-view name="header" ></router-view>
     <div class="container">
       <!-- main中心位置的命名视图 -->
@@ -38,6 +38,11 @@
 <script>
 export default {
   name: 'Home',
+  computed: {
+    key () {
+      return this.$route.name !== undefined ? this.$route.name + new Date() : this.$route + new Date()
+    }
+  },
   data () {
     return {
       articles: []

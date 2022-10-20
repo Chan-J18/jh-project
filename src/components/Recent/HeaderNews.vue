@@ -21,9 +21,6 @@ export default {
   mounted () {
     this.load()
   },
-  updated () {
-    this.load()
-  },
   methods: {
     newDetail (id) {
       this.$router.push({path: '/article',
