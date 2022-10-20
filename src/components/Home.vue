@@ -1,12 +1,13 @@
 <template>
   <div >
     <el-menu
+      style="margin-bottom: 20px"
       :default-active= "'/recent'"
       :router="true"
       class="el-menu-demo"
       mode="horizontal"
       @select="handleSelect"
-      background-color="#545c64"
+      background-color="#00BFFF"
       text-color="#fff"
       active-text-color="#ffd04b">
       <el-menu-item :key="1" index="/recent" >最新资讯</el-menu-item>

@@ -40,19 +40,25 @@ export default {
     }
   },
   mounted () {
-    var _this = this
-    this.$axios.get('/article/' + this.pagesize + '/1')
-      .then(resp => {
-        if (resp && resp.status === 200) {
-          _this.articles = resp.data.content
-          _this.total = resp.data.totalElements
-        }
-      })
+    this.load()
+  },
+  updated () {
+    this.load()
   },
   methods: {
     handleCurrentChange (page) {
       var _this = this
       this.$axios.get('/article/' + this.pagesize + '/' + page)
+        .then(resp => {
+          if (resp && resp.status === 200) {
+            _this.articles = resp.data.content
+            _this.total = resp.data.totalElements
+          }
+        })
+    },
+    load () {
+      var _this = this
+      this.$axios.get('/article/' + this.pagesize + '/1')
         .then(resp => {
           if (resp && resp.status === 200) {
             _this.articles = resp.data.content

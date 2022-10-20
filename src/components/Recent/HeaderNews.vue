@@ -19,11 +19,10 @@ export default {
     }
   },
   mounted () {
-    var _this = this
-    this.$axios.get('/article/header')
-      .then(resp => {
-        _this.headerNews = resp.data.content
-      })
+    this.load()
+  },
+  updated () {
+    this.load()
   },
   methods: {
     newDetail (id) {
@@ -33,6 +32,13 @@ export default {
             id: id,
             back: '/recent'
           }})
+    },
+    load () {
+      var _this = this
+      this.$axios.get('/article/header')
+        .then(resp => {
+          _this.headerNews = resp.data.content
+        })
     }
   }
 }

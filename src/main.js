@@ -9,6 +9,7 @@ import axios from 'axios'
 import store from './store'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
+import 'mavon-editor/dist/markdown/github-markdown.min.css'
 
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = 'http://localhost:8443'

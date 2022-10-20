@@ -60,5 +60,12 @@ export default {
 </script>
 
 <style scoped>
+  .article-link {
+    text-decoration: none;
+    color: #606266;
+  }
 
+  .article-link:hover {
+    color: #409EFF;
+  }
 </style>

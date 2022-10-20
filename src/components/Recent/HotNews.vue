@@ -1,11 +1,11 @@
 <template>
   <div style="margin-top: 40px">
-    <div class="articles-area">
-      <el-card style="text-align: center" @click="newDetail">
-        <i class="el-icon-thumb" style="font-size: 40px;"><strong>热点资讯</strong></i>
-        <div v-for="(item, index) in hotNews" :key="index" style="margin-top: 10px">
-          <div style="float:left;width:85%;height:35px;">
-            <router-link class="article-link" :to="{path:'/article',query:{id: item.id, back: '/recent'}}" ><span style="font-size: 15px">{{index+1}}、 {{item.title}}</span></router-link>
+    <div >
+      <el-card style="text-align: left;padding-bottom: 35px" >
+        <i class="el-icon-thumb" style="font-size: 25px;"><strong>热点资讯</strong></i>
+        <div v-for="(item, index) in hotNews" :key="index" style="margin-top: 15px">
+          <div style="float:left;width:85%;margin-top: 20px">
+            <router-link class="article-link" :to="{path:'/article',query:{id: item.id, back: '/recent'}}" ><span style="font-size: 15px"> <strong>{{item.title}}</strong></span></router-link>
           </div>
         </div>
       </el-card>
@@ -22,27 +22,24 @@ export default {
     }
   },
   mounted () {
-    var _this = this
-    this.$axios.get('/article/hot')
-      .then(resp => {
-        _this.hotNews = resp.data.content
-      })
+    this.load()
+  },
+  updated () {
+    this.load()
   },
   methods: {
-    newDetail () {
+    load () {
+      var _this = this
+      this.$axios.get('/article/hot/' + 5)
+        .then(resp => {
+          _this.hotNews = resp.data.content
+        })
     }
   }
 }
 </script>
 
 <style scoped>
-  .articles-area {
-    width: 450px;
-    height: 750px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
   .article-link {
     text-decoration: none;
     color: #606266;
