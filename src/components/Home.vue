@@ -20,8 +20,7 @@
       </el-submenu>
       <el-menu-item :key="6" index="/" class="el-icon-switch-button" style="float: right" @click="logout"></el-menu-item>
       <el-menu-item :key="7" index="/Manage/个人中心" class="el-icon-user" style="float: right" ></el-menu-item>
-      <el-menu-item :key="8" index="/Manage/主题管理" class="el-icon-tickets" style="float: right"></el-menu-item>
-      <el-menu-item :key="9" index="/Publish" class="el-icon-circle-plus" style="float: right" ></el-menu-item>
+      <el-menu-item :key="8" v-if="role === '发布者'" index="/Publish" class="el-icon-circle-plus" style="float: right" ></el-menu-item>
       <span style="position: absolute;padding-top: 10px;right: 49%;font-size: 30px;font-weight: bold ;color: white">网闻天下事</span>
     </el-menu>
     <router-view :key="key" ></router-view>
@@ -45,10 +44,12 @@ export default {
   },
   data () {
     return {
-      articles: []
+      articles: [],
+      role: ''
     }
   },
   mounted () {
+    this.role = this.$store.state.user.role
   },
   methods: {
     handleSelect (key, keyPath) {

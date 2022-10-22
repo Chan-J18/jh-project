@@ -20,9 +20,10 @@
 <script>
 export default {
   name: 'ImgUpload',
+  props: ['url'],
   data () {
     return {
-      dialogImageUrl: '',
+      dialogImageUrl: this.props.url,
       ImgUrl: '',
       dialogVisible: false
     }

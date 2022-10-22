@@ -10,6 +10,8 @@ import HotNews from '../components/Recent/HotNews'
 import HeaderNews from '../components/Recent/HeaderNews'
 import Publish from '../components/Publish'
 import ArticleDetail from '../components/common/ArticleDetail'
+import Detail from '../components/admin/content/Detail'
+
 Vue.use(Router)
 
 export default new Router({
@@ -18,6 +20,21 @@ export default new Router({
       path: '/',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: () => import('../components/admin/AdminIndex'),
+      meta: {
+        requireAuth: true
+      },
+      children: [
+        {
+          path: '/admin/article/detail',
+          name: 'Detail',
+          component: Detail
+        }
+      ]
     },
     {
       path: '/home',

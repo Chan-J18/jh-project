@@ -8,8 +8,6 @@
     <el-form-item >
       <el-input type="password" v-model="loginForm.password" auto-complete="off" placeholder="密码"></el-input>
     </el-form-item>
-    <el-checkbox class="login_remember" v-model="checked"
-                 label-position="left"><span style="color: #505458">记住我</span></el-checkbox>
     <el-form-item style="width:100%">
       <el-button :plain="true"  type="primary" style="width: 100%;background: #505458;border: none" v-on:click="login">登录</el-button>
     </el-form-item>
@@ -50,7 +48,16 @@ export default {
             _this.$store.commit('login', _this.loginForm)
             // 记录原本访问路径（未登录前）
             var path = this.$route.query.redirect
-            this.$router.replace({path: path === '/' || path === undefined ? '/home' : path})
+            // 获取用户角色 ，根据角色进行页面跳转
+            this.$axios.get('/user/role/' + _this.loginForm.username)
+              .then(resp => {
+                var role = resp.data
+                this.$store.commit('role', role)
+                var to = ''
+                if (role === '管理员') to = '/admin'
+                else to = '/home'
+                this.$router.replace({path: path === '/' || path === undefined ? to : path})
+              }).catch(e => e)
           } else {
             console.log(successsResponse.data.message)
           }

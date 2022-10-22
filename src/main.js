@@ -19,8 +19,17 @@ Vue.use(ElementUI)
 Vue.use(mavonEditor)
 
 router.beforeEach((to, from, next) => {
+  if (store.state.user.username && to.path.startsWith('/admin')) {
+    axios.post('/authentication', {
+      username: store.state.user.username,
+      password: store.state.user.password
+    }).then(resp => {
+      initAdminMenu(router, store)
+    })
+  }
+  // 页面访问拦截、账号认证拦截的实现
   if (to.meta.requireAuth) {
-    if (store.state.user) {
+    if (store.state.user.username) {
       axios.post('/authentication', {
         username: store.state.user.username,
         password: store.state.user.password
@@ -49,6 +58,40 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+
+const initAdminMenu = (router, store) => {
+  if (store.state.Menus.length > 0) {
+    return
+  }
+  axios.get('/menu').then(resp => {
+    if (resp && resp.status === 200) {
+      var fmtRoutes = formatRoutes(resp.data)
+      router.addRoutes(fmtRoutes)
+      store.commit('initAdminMenu', fmtRoutes)
+    }
+  })
+}
+
+const formatRoutes = (routes) => {
+  let fmtRoutes = []
+  routes.forEach(route => {
+    if (route.children) {
+      route.children = formatRoutes(route.children)
+    }
+    let fmtRoute = {
+      path: route.path,
+      component: resolve => {
+        require(['./components/admin/' + route.component + '.vue'], resolve)
+      },
+      name: route.name,
+      nameZh: route.nameZh,
+      iconCls: route.iconCls,
+      children: route.children
+    }
+    fmtRoutes.push(fmtRoute)
+  })
+  return fmtRoutes
+}
 
 /* eslint-disable no-new */
 new Vue({
