@@ -34,7 +34,7 @@ export default {
     return {
       articles: [],
       page: 1,
-      pagesize: 10,
+      pagesize: 8,
       total: 0
     }
   },

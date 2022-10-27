@@ -21,7 +21,18 @@
       <el-menu-item :key="6" index="/" class="el-icon-switch-button" style="float: right" @click="logout"></el-menu-item>
       <el-menu-item :key="7" index="/Manage/个人中心" class="el-icon-user" style="float: right" ></el-menu-item>
       <el-menu-item :key="8" v-if="role === '发布者'" index="/Publish" class="el-icon-circle-plus" style="float: right" ></el-menu-item>
-      <span style="position: absolute;padding-top: 10px;right: 49%;font-size: 30px;font-weight: bold ;color: white">网闻天下事</span>
+      <span style="float: left;padding-top: 10px;right: 49%;font-size: 30px;font-weight: bold ;color: white;margin-left: 400px">网闻天下事</span>
+      <el-menu-item style="display: flex;justify-content: center;align-items: center">
+          <el-input
+            @keyup.enter.native="searchClick"
+            placeholder="通过标题搜索..."
+            prefix-icon="el-icon-search"
+            size="small"
+            style="width: 400px;margin-right: 10px"
+            v-model="keywords">
+          </el-input>
+          <el-button size="small" type="primary" icon="el-icon-search" @click="searchClick">搜索</el-button>
+      </el-menu-item>
     </el-menu>
     <router-view :key="key" ></router-view>
     <router-view name="header" ></router-view>
@@ -45,13 +56,17 @@ export default {
   data () {
     return {
       articles: [],
-      role: ''
+      role: '',
+      keywords: ''
     }
   },
   mounted () {
     this.role = this.$store.state.user.role
   },
   methods: {
+    searchClick () {
+      this.$router.push({path: '/search', query: {keywords: this.keywords}})
+    },
     handleSelect (key, keyPath) {
     },
     logout () {

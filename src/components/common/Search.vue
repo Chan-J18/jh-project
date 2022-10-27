@@ -1,12 +1,12 @@
 <template>
-  <div style="margin-top: 40px">
-    <div class="articles-area">
+  <div style="margin-top: 40px;margin-left: 300px">
+    <div style="width: 1300px;">
       <el-card style="text-align: left">
         <div v-for="(item,index) in articles" :key="index">
           <div style="float:left;width:85%;height: 150px;">
-            <router-link class="article-link" :to="{path:'/article',query:{id: item.id, back: '/recent'}}"><span style="font-size: 20px"><strong>{{item.title}}</strong></span></router-link>
+            <router-link class="article-link" :to="{path:'/article',query:{id: item.id, back:'/Recommend'}}"><span style="font-size: 20px"><strong>{{item.title}}</strong></span></router-link>
             <el-divider content-position="right">{{item.date}}</el-divider>
-            <router-link class="article-link" :to="{path:'/article',query:{id: item.id, back: '/recent'}}"><p>{{item.profile}}</p></router-link>
+            <router-link class="article-link" :to="{path:'/article',query:{id: item.id, back: '/Recommend'}}"><p>{{item.profile}}</p></router-link>
           </div>
           <el-image
             style="margin:18px 0 0 30px;width:100px;height: 100px"
@@ -29,53 +29,49 @@
 
 <script>
 export default {
-  name: 'RecentNews',
-  props: ['recentNews'],
+  name: 'Search.vue',
   data () {
     return {
       articles: [],
+      Datas: [],
       page: 1,
       pagesize: 8,
       total: 0
     }
   },
   mounted () {
-    this.load()
+    var _this = this
+    if (_this.$route.query.keywords === '') {
+      this.$axios.get('/article/all')
+        .then(resp => {
+          _this.Datas = resp.data
+          _this.getTableData()
+        })
+    } else {
+      this.$axios.get('/article/search/' + _this.$route.query.keywords)
+        .then(resp => {
+          _this.Datas = resp.data
+          _this.getTableData()
+        })
+    }
   },
   methods: {
     handleCurrentChange (page) {
-      var _this = this
-      console.log(page)
-      this.$axios.get('/article/' + this.pagesize + '/' + page)
-        .then(resp => {
-          if (resp && resp.status === 200) {
-            _this.articles = resp.data.content
-            _this.total = resp.data.totalElements
-          }
-        })
+      this.page = page
+      this.getTableData()
     },
-    load () {
-      var _this = this
-      this.$axios.get('/article/' + this.pagesize + '/1')
-        .then(resp => {
-          if (resp && resp.status === 200) {
-            _this.articles = resp.data.content
-            _this.total = resp.data.totalElements
-          }
-        })
+    getTableData () {
+      this.articles = this.Datas.slice(
+        (this.page - 1) * this.pagesize,
+        this.page * this.pagesize
+      )
+      this.total = this.Datas.length
     }
   }
 }
 </script>
 
 <style scoped>
-  .articles-area {
-    width: 1500px;
-    height: 750px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
   .article-link {
     text-decoration: none;
     color: #606266;

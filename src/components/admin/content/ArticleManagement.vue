@@ -101,8 +101,22 @@ export default {
       }
     },
     deleteList () {
+      this.$refs.multipleTable.selection.forEach(article => {
+        this.$axios.get('/admin/article/delete/' + article.id)
+          .then(() => {
+            this.articles.forEach((a, index) => {
+              if (a.id === article.id) {
+                this.articles.splice(index)
+              }
+            })
+          })
+      })
     },
-    deleteRow () {
+    deleteRow (index) {
+      this.$axios.get('/admin/article/delete/' + this.articles[index].id)
+        .then(() => {
+          this.articles.splice(index, 1)
+        })
     },
     listArticles () {
       var _this = this

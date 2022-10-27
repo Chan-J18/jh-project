@@ -11,6 +11,7 @@ import HeaderNews from '../components/Recent/HeaderNews'
 import Publish from '../components/Publish'
 import ArticleDetail from '../components/common/ArticleDetail'
 import Detail from '../components/admin/content/Detail'
+import Search from '../components/common/Search'
 
 Vue.use(Router)
 
@@ -64,6 +65,14 @@ export default new Router({
             requireAuth: true
           },
           component: Recommend
+        },
+        {
+          path: '/search',
+          name: 'Search',
+          meta: {
+            requireAuth: true
+          },
+          component: Search
         },
         {
           path: '/topic/:type',
